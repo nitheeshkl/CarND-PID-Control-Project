@@ -52,16 +52,15 @@ void PID::UpdateError(double cte) {
     // below logic implements twiddle algo for an asynchronous system, to
     // optimize params
     if (step > 100) {
-        /*
+        total_cte = pow(cte,2);
+        //total_cte = cte;
         // first time setup
         if (std::isnan(best_cte)) {
-            best_cte = cte; // initialize best_cte
+            best_cte = total_cte; // initialize best_cte
             twiddle_step = 1; // ensure we go to case 1 in the next step
             std::cout << 'initializing best cte = ' << best_cte << std::endl;
             return;
         }
-        */
-        total_cte += pow(cte,2);
         std::cout << "Kp: " << p[0]
                   << " Ki: " << p[1]
                   << " Kd: " << p[2]
