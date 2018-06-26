@@ -17,6 +17,16 @@ public:
   double Ki;
   double Kd;
 
+  // number of hyper params used
+  const static unsigned short num_params = 3;
+  double *p; // array of params
+  double *dp; // twiddle params
+  double best_cte; // to store best cte for twiddle
+  double prev_cte; // stores previous cte used to calculate diff error
+  unsigned short index; // points to the current hyper param in twiddle
+  constexpr static double tol = 0.2; // tol used to check sum of dp in twiddle
+  unsigned short twiddle_step = 1; // stores the next step to process in twiddle
+
   /*
   * Constructor
   */
