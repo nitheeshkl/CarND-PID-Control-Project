@@ -23,10 +23,13 @@ void PID::Init(double Kp, double Ki, double Kd) {
     best_cte = 1000000000.0; // initialize to unknown
     twiddle_step = 1; // start with step 1 of twiddle algo
     i_error = 0.0; // initialize integral error component to 0.0
+    total_cte = 0.0;
+    step = 1;
 }
 
 void PID::UpdateError(double cte) {
     // update errors
+    if (step == 1) prev_cte = cte;
     p_error = cte; // proportional component
     i_error += cte; // integral component, accumulates over time
     d_error = cte - prev_cte; // differential component, considering delta_t = 1
@@ -48,7 +51,7 @@ void PID::UpdateError(double cte) {
 
     // below logic implements twiddle algo for an asynchronous system, to
     // optimize params
-    if (sum_dp > tol) {
+    if (step > 100) {
         /*
         // first time setup
         if (std::isnan(best_cte)) {
@@ -58,6 +61,7 @@ void PID::UpdateError(double cte) {
             return;
         }
         */
+        total_cte += pow(cte,2);
         std::cout << "Kp: " << p[0]
                   << " Ki: " << p[1]
                   << " Kd: " << p[2]
@@ -71,7 +75,7 @@ void PID::UpdateError(double cte) {
                 twiddle_step = 2;
                 return;
             case 2: // evaluate error from dp of step 1
-                if (cte < best_cte) { // if there is an improvement
+                if (total_cte < best_cte) { // if there is an improvement
                     best_cte = cte; // save the new best cte
                     dp[index] *= 1.1; // increment dp
                     std::cout << "2) improvement: best cte: " << best_cte
@@ -87,7 +91,7 @@ void PID::UpdateError(double cte) {
                 }
                 break;
             case 3: // evaluate error from dp of step 2
-                if (cte < best_cte) { // if there is improvement
+                if (total_cte < best_cte) { // if there is improvement
                     best_cte = cte; // save the new best cte
                     dp[index] *= 1.1; // increment dp
                     std::cout << "3) improvement: best cte: " << best_cte
@@ -106,7 +110,9 @@ void PID::UpdateError(double cte) {
                 return;
         }
         index = (index + 1) % num_params; // cycle through all params
+        total_cte = 0;
     }
+    step++;
 }
 
 double PID::TotalError() {

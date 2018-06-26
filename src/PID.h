@@ -24,8 +24,10 @@ public:
   double best_cte; // to store best cte for twiddle
   double prev_cte; // stores previous cte used to calculate diff error
   unsigned short index; // points to the current hyper param in twiddle
-  constexpr static double tol = 0.02; // tol used to check sum of dp in twiddle
+  constexpr static double tol = 0.1; // tol used to check sum of dp in twiddle
   unsigned short twiddle_step = 1; // stores the next step to process in twiddle
+  double total_cte = 0;
+  long step = 0;
 
   /*
   * Constructor
