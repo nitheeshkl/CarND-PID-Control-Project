@@ -67,7 +67,7 @@ int main()
           pid.UpdateError(cte);
           steer_value = pid.TotalError();
           pidT.UpdateError(cte);
-          speed = 0.5 - pidT.TotalError();
+          speed = 0.5 + pidT.TotalError();
           //if (steer_value > 1) steer_value = 1;
           //if (steer_value < -1) steer_value = -1;
           // DEBUG
