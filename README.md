@@ -89,8 +89,8 @@ finding good hyperparms, doing so resulted in the car going off track eventually
 for ex, after around 10 laps as slight changes in the car's orientation starts 
 to accumulate after a certain point, the previously calculated hyperparam values 
 wouldn't fit to dampen this accumulated error. So I've left twiddle on to run 
-always so the car can drive indifinitely on the lane correctly. The different 
-videos shows these behaviours.  
+always so the car can drive indifinitely on the lane correctly. The video 
+[https://youtu.be/J3MrR1KbYrk](https://youtu.be/J3MrR1KbYrk) shows these behaviours. 
  
 
 ---
